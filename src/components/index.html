@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>TrendyGenz - Innovative Chairs</title>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+ <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body class="font-sans leading-normal tracking-normal">
+ <div id="app">
+   <!-- Header Section -->
+   <header class="bg-white shadow">
+     <nav class="container mx-auto px-6 py-3 flex items-center justify-between">
+       <div class="flex items-center">
+         <img src="logo.png" alt="TrendyGenz Logo" class="h-8 mr-3">
+         <h1 class="text-xl font-bold">TrendyGenz</h1>
+       </div>
+       <div class="flex space-x-4">
+         <a href="#" class="hover:text-gray-600">Home</a>
+         <a href="#" class="hover:text-gray-600">About Us</a>
+         <a href="#" class="hover:text-gray-600">Products</a>
+         <a href="#" class="hover:text-gray-600 relative">
+           <span class="material-icons">shopping_cart</span>
+           <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full px-1">{{ cart.length }}</span>
+         </a>
+         <a href="#" class="hover:text-gray-600">Contact</a>
+       </div>
+     </nav>
+   </header>
+
+   <!-- Hero Section -->
+   <section class="bg-gray-100 py-20">
+     <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+       <div class="md:w-1/2">
+         <h2 class="text-4xl font-bold mb-6">Innovative Chair for the Modern Era</h2>
+         <p class="text-gray-600 mb-8">Experience unparalleled comfort and style with our cutting-edge chair design. Crafted with premium materials and ergonomic features, it's the perfect blend of form and function.</p>
+         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Buy Now</button>
+       </div>
+       <div class="md:w-1/2">
+         <img src="hero-image.jpg" alt="Innovative Chair" class="max-w-full">
+       </div>
+     </div>
+   </section>
+
+   <!-- Product Showcase Section -->
+   <section class="py-20">
+     <div class="container mx-auto px-6">
+       <h2 class="text-3xl font-bold mb-6">Product Showcase</h2>
+       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+         <div v-for="image in productImages" :key="image.id" class="relative group">
+           <img :src="image.src" :alt="image.alt" class="w-full h-auto rounded-lg">
+           <div class="absolute inset-0 bg-black bg-opacity-25 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+             <div class="text-white text-center">
+               <p class="text-lg font-bold mb-2">{{ image.name }}</p>
+               <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Add to Cart</button>
+               <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Learn More</button>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+
+   <!-- Timer Section -->
+   <section class="bg-gray-100 py-20">
+     <div class="container mx-auto px-6 text-center">
+       <h2 class="text-3xl font-bold mb-6">Limited Time Offer</h2>
+       <p class="text-gray-600 mb-8">Get 20% off on your first purchase! Act now before the offer ends.</p>
+       <div class="flex justify-center mb-8">
+         <div class="mr-4">
+           <span class="text-4xl font-bold">{{ days }}</span>
+           <p class="text-gray-600">Days</p>
+         </div>
+         <div class="mr-4">
+           <span class="text-4xl font-bold">{{ hours }}</span>
+           <p class="text-gray-600">Hours</p>
+         </div>
+         <div class="mr-4">
+           <span class="text-4xl font-bold">{{ minutes }}</span>
+           <p class="text-gray-600">Minutes</p>
+         </div>
+         <div>
+           <span class="text-4xl font-bold">{{ seconds }}</span>
+           <p class="text-gray-600">Seconds</p>
+         </div>
+       </div>
+       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shop Now</button>
+     </div>
+   </section>
+
+   <!-- Cart and Checkout Section -->
+   <section class="py-20">
+     <div class="container mx-auto px-6">
+       <h2 class="text-3xl font-bold mb-6">Your Cart</h2>
+       <div v-if="cart.length === 0" class="text-gray-600">
+         Your cart is empty.
+       </div>
+       <div v-else>
+         <ul>
+           <li v-for="item in cart" :key="item.id" class="flex items-center justify-between mb-4">
+             <div class="flex items-center">
+               <img :src="item.image" :alt="item.name" class="w-16 h-16 object-cover rounded mr-4">
+               <div>
+                 <p class="font-bold">{{ item.name }}</p>
+                 <p class="text-gray-600">Price: ${{ item.price }}</p>
+               </div>
+             </div>
+             <div class="flex items-center">
+               <button class="text-gray-600 hover:text-gray-800 mr-2" @click="decrementQuantity(item)">
+                 <span class="material-icons">remove</span>
+               </button>
+               <span class="mx-2">{{ item.quantity }}</span>
+               <button class="text-gray-600 hover:text-gray-800 ml-2" @click="incrementQuantity(item)">
+                 <span class="material-icons">add</span>
+               </button>
+               <button class="text-red-500 hover:text-red-700 ml-4" @click="removeFromCart(item)">
+                 <span class="material-icons">delete</span>
+               </button>
+             </div>
+           </li>
+         </ul>
+         <div class="text-right mt-8">
+           <p class="font-bold mb-2">Total: ${{ total }}</p>
+           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Proceed to Checkout</button>
+         </div>
+       </div>
+     </div>
+   </section>
+
+   <!-- Footer Section -->
+   <footer class="bg-gray-800 text-white py-10">
+     <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+       <div>
+         <img src="logo.png" alt="TrendyGenz Logo" class="h-8 mb-4">
+         <p>&copy; 2023 TrendyGenz. All rights reserved.</p>
+       </div>
+       <div class="flex space-x-4 mt-4 md:mt-0">
+         <a href="#" class="text-gray-400 hover:text-white">
+           <span class="material-icons">email</span>
+         </a>
+         <a href="#" class="text-gray-400 hover:text-white">
+           <span class="material-icons">phone</span>
+         </a>
+         <a href="#" class="text-gray-400 hover:text-white">
+           <span class="material-icons">facebook</span>
+         </a>
+         <a href="#" class="text-gray-400 hover:text-white">
+           <span class="material-icons">twitter</span>
+         </a>
+         <a href="#" class="text-gray-400 hover:text-white">
+           <span class="material-icons">instagram</span>
+         </a>
+       </div>
+     </div>
+   </footer>
+ </div>
+
+ <script>
+   new Vue({
+     el: '#app',
+     data: {
+       cart: [],
+       productImages: [
+         { id: 1, src: 'product-image-1.jpg', alt: 'Product Image 1', name: 'Chair 1' },
+         { id: 2, src: 'product-image-2.jpg', alt: 'Product Image 2', name: 'Chair 2' },
+         { id: 3, src: 'product-image-3.jpg', alt: 'Product Image 3', name: 'Chair 3' },
+         { id: 4, src: 'product-image-4.jpg', alt: 'Product Image 4', name: 'Chair 4' },
+         { id: 5, src: 'product-image-5.jpg', alt: 'Product Image 5', name: 'Chair 5' },
+         { id: 6, src: 'product-image-6.jpg', alt: 'Product Image 6', name: 'Chair 6' }
+       ],
+       days: 0,
+       hours: 0,
+       minutes: 0,
+       seconds: 0
+     },
+     computed: {
+       total() {
+         return this.cart.reduce((total, item) => total + item.price * item.quantity, 0);
+       }
+     },
+     mounted() {
+       this.startCountdown();
+     },
+     methods: {
+       addToCart(item) {
+         const existingItem = this.cart.find(i => i.id === item.id);
+         if (existingItem) {
+           existingItem.quantity++;
+         } else {
+           this.cart.push({ ...item, quantity: 1 });
+         }
+       },
+       incrementQuantity(item) {
+         item.quantity++;
+       },
+       decrementQuantity(item) {
+         if (item.quantity > 1) {
+           item.quantity--;
+         } else {
+           this.removeFromCart(item);
+         }
+       },
+       removeFromCart(item) {
+         this.cart = this.cart.filter(i => i !== item);
+       },
+       startCountdown() {
+         const countDownDate = new Date("June 30, 2023 23:59:59").getTime();
+
+         const countdownInterval = setInterval(() => {
+           const now = new Date().getTime();
+           const distance = countDownDate - now;
+
+           this.days = Math.floor(distance / (1000 * 60 * 60 * 24));
+           this.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+           this.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+           this.seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+           if (distance < 0) {
+             clearInterval(countdownInterval);
+             this.days = 0;
+             this.hours = 0;
+             this.minutes = 0;
+             this.seconds = 0;
+           }
+         }, 1000);
+       }
+     }
+   });
+ </script>
+</body>
+</html>

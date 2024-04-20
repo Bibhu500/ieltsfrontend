@@ -1,0 +1,34 @@
+/* Custom Card Styles */
+.custom-card {
+    border: 2px solid gray; /* Card border */
+    border-top: none; /* Remove the top border */
+  }
+  
+  /* Custom Button Styles */
+  .custom-btn {
+    background-color: #860021; /* Button background color */
+    border-color: #860021; /* Button border color */
+  }
+  
+  /* Accordion Header Styles */
+  #accordion .card-header {
+    background-color: #343434; /* Header background color */
+  }
+  
+  /* Custom styles for button links in the card header */
+  #accordion .card-header .btn-link {
+    color: black; /* Change text color to black for 'Lesson to Cover' and 'Show All' */
+  }
+  
+  /* Styles for badge within the accordion header */
+  .badge-light {
+    background-color: white; /* Badge background color */
+    color: black; /* Badge text color */
+  }
+  
+  /* Custom Card Body Styles */
+  .custom-card-body {
+    background-color: #860021; /* Card body background color */
+    color: white; /* Card body text color */
+  }
+  

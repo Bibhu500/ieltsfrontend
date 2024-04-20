@@ -1,0 +1,75 @@
+.test-title, .card-title {
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+.card-custom {
+    border-top: 2px solid grey;
+}
+
+.btn-custom {
+    height: 100px;
+    margin: 2px;
+}
+
+.progress-custom {
+    height: 20px; 
+    width: 150px; 
+    margin: 2px;
+}
+
+.shiny-rainbow-text {
+    /* Your existing shiny rainbow text styles */
+}
+
+
+.lesson-list {
+    list-style-type: none; /* Removes the default list bullet */
+    padding-left: 0; /* Removes the default padding */
+}
+
+.lesson-link {
+    display: inline-block; /* Aligns the icon with the text */
+    color: inherit; /* Inherits the text color from the parent */
+    text-decoration: none; /* Removes underline */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 5px 0; /* Adds some padding around the links */
+}
+
+.lesson-link:hover {
+    text-decoration: none; /* Ensures no underline on hover */
+}
+
+.lesson-link i {
+    margin-right: 5px; /* Adds 5px space between the icon and the text */
+}
+
+.btn-link .fas {
+    margin-right: 5px; /* Space between the icon and text */
+}
+
+/* ... (Previous CSS remains unchanged) ... */
+
+.btn-link {
+    width: 100%; /* Make the button full width */
+    text-align: center; /* Center the text and icon */
+    display: block; /* Make it a block element */
+    color: inherit; /* Inherit the color */
+    text-decoration: none; /* Remove text decoration */
+}
+
+.lessons-completed {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+    position: absolute; /* Position it relative to the header */
+    right: 10px; /* Distance from the right */
+    top: 50%; /* Align vertically */
+    transform: translateY(-50%); /* Ensure it's centered vertically */
+}
+.bottom-margin-text {
+     
+    margin-bottom: 20px;
+}
