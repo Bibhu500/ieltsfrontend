@@ -108,7 +108,7 @@ const PerformanceCharts = ({ testData }) => {
 
   useEffect(() => {
     // console.log(testData);
-    const learningChart = createChart(learningChartRef, testData.speaking, 'Learning', 'speaking');
+    const learningChart = createChart(learningChartRef, testData.speaking, 'Speaking', 'speaking');
     const listeningChart = createChart(listeningChartRef, testData.listening, 'Listening', 'listening');
     const writingChart = createChart(writingChartRef, testData.writing, 'Writing', 'writing');
     const readingChart = createChart(readingChartRef, testData.reading, 'Reading', 'reading');
