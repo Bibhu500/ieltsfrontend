@@ -4,10 +4,10 @@ import ScoreCard from './ScoreCard';
 import { useState } from 'react';
 
 const Writing1Results = () => {
+  const [shareLink, setShareLink] = useState('');
+  
   const location = useLocation();
   const testDetails = location.state;
-  const [shareLink, setShareLink] = useState('');
-
   if (!testDetails) {
     return <div>No test details found.</div>;
   }
@@ -16,7 +16,7 @@ const Writing1Results = () => {
 
   const handleShare = () => {
     // Generate a sample share link (replace with actual logic to generate a unique link)
-    const sampleLink = `http://localhost:5173/writing/share/${share_id}`;
+    const sampleLink = `${import.meta.env.VITE_FRONTEND_URL}/writing/share/${share_id}`;
     setShareLink(sampleLink);
   };
 
@@ -28,7 +28,7 @@ const Writing1Results = () => {
   return (
     <div className="ielts-writing-test-result p-8 bg-white rounded-lg shadow-lg">
 
-<div className="mb-8">
+    <div className="mb-8">
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleShare}>
           Share Test
         </button>
@@ -46,7 +46,7 @@ const Writing1Results = () => {
             </div>
           </div>
         )}
-      </div>
+    </div>
 
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">Question:</h2>

@@ -21,6 +21,10 @@ import SpeakingResults from './components/speakingresults';
 
 import IELTSReadingTest from './components/Reading2';
 import WritingShare from './components/WritingShare';
+import TestResults from './components/ReadingResults';
+import ReadingShare from './components/ReadingShare';
+import SpeakingShare from './components/SpeakingShare';
+import IeltsWriting from './components/IeltsWriting';
 
 const App = () => {
   return (
@@ -47,6 +51,11 @@ const App = () => {
           <Route path="/speakingresults" element={<SpeakingResults/>} />
           <Route path="/IELTSReadingTest" element={<IELTSReadingTest/>} />
           <Route path="/writing/share/:shareId" element={<WritingShare />} />
+          <Route path="/readingresults" element={<TestResults />} />
+          <Route path="/reading/share/:shareId" element={<ReadingShare />} />
+          <Route path="/speaking/share/:shareId" element={<SpeakingShare />} />
+          <Route path="/IeltsWriting" element={<IeltsWriting />} />
+          
         </Routes>
     </Router>
   );

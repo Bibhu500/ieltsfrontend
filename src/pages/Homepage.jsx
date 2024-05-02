@@ -29,7 +29,7 @@ import VocabularyBuilder from '../components/VocabularyBuilder'; // Added import
 import logo1 from '../images/logo1.svg';
 import axios from "axios";
 import NotificationsIcon from '@mui/icons-material/Notifications';
-
+import { RiCloseLine } from 'react-icons/ri';
 
 const Homepage = () => {
   const menus = [
@@ -51,6 +51,7 @@ const Homepage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [notifications, setNotifications] = useState([]);
+  const [profile, setProfile] = useState({});
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const navigate = useNavigate();
   const toggleSidebar = () => {
@@ -94,8 +95,23 @@ const Homepage = () => {
         console.error('Error fetching notifications:', error);
       }
     };
+
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:5000/api/profile/get-profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });        
+        setProfile(response.data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
   
     fetchNotifications();
+    fetchProfile();
   }, []);
 
   const handleNotificationAction = async (notification, action) => {
@@ -138,6 +154,24 @@ const Homepage = () => {
     }
   };
 
+  const handleNotificationDelete = async (notificationId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`http://localhost:5000/api/notification/delete`, {_id: notificationId} ,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Notification deleted successfully.');
+      // Update the notifications state to remove the deleted notification
+      setNotifications(prevNotifications =>
+        prevNotifications.filter(notification => notification._id !== notificationId)
+      );
+    } catch (error) {
+      console.error('Error deleting notification:', error);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <Navbar fluid={true} rounded={true} className="fixed top-0 left-0 right-0 z-10">
@@ -152,8 +186,8 @@ const Homepage = () => {
             label={<Avatar alt="User settings" img={logo1} rounded={true} />}
           >
             <Dropdown.Header>
-              <span className="block text-sm">User Name</span>
-              <span className="block truncate text-sm font-medium">user@example.com</span>
+              <span className="block text-sm">{profile.name}</span>
+              <span className="block truncate text-sm font-medium">{profile.email}</span>
             </Dropdown.Header>
             <Dropdown.Item>Profile</Dropdown.Item>
             <Dropdown.Item>Settings</Dropdown.Item>
@@ -233,54 +267,74 @@ const Homepage = () => {
       </Button>
 
       <Modal show={showNotificationModal} onClose={toggleNotificationModal}>
-        <Modal.Header>Notifications</Modal.Header>
-        <Modal.Body>
-          {notifications.length > 0 ? (
-            <div className="space-y-4">
-              {notifications.map((notification, index) => (
-                <div key={index} className="p-4 bg-gray-100 rounded-lg flex items-center justify-between">
-                  {notification.status === 'accepted' && (
+      <Modal.Header>Notifications</Modal.Header>
+      <Modal.Body>
+        {notifications.length > 0 ? (
+          <div className="space-y-4">
+            {notifications.map((notification, index) => (
+              <div key={index} className="p-4 bg-gray-100 rounded-lg flex items-center justify-between">
+                {notification.status === 'accepted' && (
+                  <div className="flex items-center">
                     <p>
-                      {notification.sender_name} accepted your request to edit {' '}
+                      {notification.sender_name} accepted your request to edit{' '}
                       <a href={notification.result_link} target="_blank" rel="noopener noreferrer">
                         result
                       </a>
                     </p>
-                  )}
-                  {notification.status === 'requested' && (
-                    <>
-                      <p>
-                        {notification.sender_name} requested to edit the {' '}
-                        <a href={notification.result_link} target="_blank" rel="noopener noreferrer">
-                          test
-                        </a>
-                      </p>
-                      <div className='flex'>
-                        <Button color="success" style={{"margin": "0 .2rem"}} onClick={() => handleNotificationAction(notification, 'accepted')}>
-                          Approve
-                        </Button>
-                        <Button color="failure" onClick={() => handleNotificationAction(notification, 'rejected')}>
-                          Reject
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                  {notification.status === 'rejected' && (
+                    <button
+                      className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                      onClick={() => handleNotificationDelete(notification._id)}
+                    >
+                      <RiCloseLine size={20} />
+                    </button>
+                  </div>
+                )}
+                {notification.status === 'requested' && (
+                  <>
                     <p>
-                      {notification.sender_name} rejected your request to edit the {' '}
+                      {notification.sender_name} requested to edit the{' '}
+                      <a href={notification.result_link} target="_blank" rel="noopener noreferrer">
+                        test
+                      </a>
+                    </p>
+                    <div className="flex">
+                      <Button
+                        color="success"
+                        style={{ margin: '0 .2rem' }}
+                        onClick={() => handleNotificationAction(notification, 'accepted')}
+                      >
+                        Approve
+                      </Button>
+                      <Button color="failure" onClick={() => handleNotificationAction(notification, 'rejected')}>
+                        Reject
+                      </Button>
+                    </div>
+                  </>
+                )}
+                {notification.status === 'rejected' && (
+                  <div className="flex items-center">
+                    <p>
+                      {notification.sender_name} rejected your request to edit the{' '}
                       <a href={notification.result_link} target="_blank" rel="noopener noreferrer">
                         result
                       </a>
                     </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>No notifications found.</p>
-          )}
-        </Modal.Body>
-      </Modal>
+                    <button
+                      className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                      onClick={() => handleNotificationDelete(notification._id)}
+                    >
+                      <RiCloseLine size={20} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No notifications found.</p>
+        )}
+      </Modal.Body>
+    </Modal>
 
     </div>
   );

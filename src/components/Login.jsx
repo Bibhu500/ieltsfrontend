@@ -68,14 +68,17 @@ const Login = () => {
         const data = await response.data;
         localStorage.setItem('token', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        
+        const redirectToWritingShare = localStorage.getItem('redirectToWritingShare');
+        const writingShareUrl = localStorage.getItem('writingShareUrl');
+        if (redirectToWritingShare) {
+          localStorage.removeItem('redirectToWritingShare');
+          localStorage.removeItem('writingShareUrl');
+          navigate(writingShareUrl); // Replace with the actual route of the writing share page
+        } else {
+          navigate('/homepage');
+        }
 
-        // localStorage.setItem('token', token);
-        
-        // Update recent emails in local storage
-        // const updatedRecentEmails = [email, ...recentEmails.filter((e) => e !== email)].slice(0, 5);
-        // localStorage.setItem('recentEmails', JSON.stringify(updatedRecentEmails));
-        
-        navigate('/homepage');
         setApiError('');
       } catch (error) {
         console.error('Login Error:', error);

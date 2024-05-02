@@ -39,7 +39,7 @@ function Writing2() {
       try {
         const token = localStorage.getItem('token'); // Get token from localStorage
         const response = await axios.post(
-          'http://localhost:5000/api/writing',
+          `${import.meta.env.VITE_BASE_URL}/writing`,
           { type: 'Essay' },
           {
             headers: {

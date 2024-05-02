@@ -15,7 +15,7 @@ const PerformanceCharts = ({ testData }) => {
   const overallChartRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleBarClick = async (event, elements, chartId) => {
+  const handleLineClick = async (event, elements, chartId) => {
     if (elements.length > 0) {
       const clickedDataPoint = elements[0];
       const { datasetIndex, index } = clickedDataPoint;
@@ -58,7 +58,7 @@ const PerformanceCharts = ({ testData }) => {
     }
 
     ref.current.chart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: data.time,
         datasets: [{
@@ -99,7 +99,7 @@ const PerformanceCharts = ({ testData }) => {
             }
           }
         },
-        onClick: (event, elements) => handleBarClick(event, elements, chartId),
+        onClick: (event, elements) => handleLineClick(event, elements, chartId),
       }
     });
 

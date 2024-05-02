@@ -24,7 +24,7 @@ const IELTSReadingTest = () => {
     const fetchPassageData = async () => {
       try {
         const token = localStorage.getItem('token'); // Retrieve the token from local storage
-        const response = await axios.get('http://localhost:5000/api/reading/', {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/reading/`, {
           headers: {
             Authorization: `Bearer ${token}`, // Send the token in the Authorization header
           },
@@ -129,7 +129,7 @@ const IELTSReadingTest = () => {
 
     console.log(payload);
     const token = localStorage.getItem("token");
-    const response = await axios.post("http://localhost:5000/api/reading/saveResult", payload, {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/reading/saveResult`, payload, {
       headers: {
         'Authorization': `Bearer ${token}`,
       }
